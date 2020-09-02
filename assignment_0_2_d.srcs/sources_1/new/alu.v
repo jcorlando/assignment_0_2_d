@@ -1,10 +1,10 @@
 `timescale 1ns / 1ps
 
-module alu
+module alu # ( parameter WL = 32 )
 (
-    input [31:0] A,B,
-    input [3:0] ALU_Control,
-    output reg [31:0] ALU_Out,
+    input signed [WL - 1 : 0] A,B,
+    input signed [3 : 0] ALU_Control,
+    output reg signed [WL - 1 : 0] ALU_Out,
     output reg OVF
 );
     
@@ -37,8 +37,8 @@ module alu
     
     always @ (*)
     case (ALU_Control)
-        4'b0000: OVF <= ( A[31] & B[31] & ~ALU_Out[31] ) | ( ~A[31] & ~B[31] & ALU_Out[31] );
-        4'b0001: OVF <= ( ~A[31] & B[31] & ALU_Out[31] ) | ( A[31] & ~B[31] & ~ALU_Out[31] );
+        4'b0000: OVF <= ( A[WL - 1] & B[WL - 1] & ~ALU_Out[WL - 1] ) | ( ~A[WL - 1] & ~B[WL - 1] & ALU_Out[WL - 1] );
+        4'b0001: OVF <= ( ~A[WL - 1] & B[WL - 1] & ALU_Out[WL - 1] ) | ( A[WL - 1] & ~B[WL - 1] & ~ALU_Out[WL - 1] );
         default: OVF <= 1'b0;
     endcase
 endmodule

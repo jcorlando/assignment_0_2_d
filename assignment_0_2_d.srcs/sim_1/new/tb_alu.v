@@ -2,22 +2,26 @@
 
 module tb_alu;
 
+// Parameters
+parameter WL = 32;
+
 //Inputs
-reg [31 : 0] A;
-reg [31 : 0] B;
+reg [WL - 1 : 0] A;
+reg [WL - 1 : 0] B;
 reg [3 : 0] ALU_Control;
 
 //Outputs
-wire [31 : 0] ALU_Out;
+wire [WL - 1 : 0] ALU_Out;
 wire OVF;
 
 //Instantiate DUT
-alu DUT( .A(A), .B(B), .ALU_Control(ALU_Control), .ALU_Out(ALU_Out), .OVF(OVF) );
+alu # ( .WL(WL) )
+    DUT( .A(A), .B(B), .ALU_Control(ALU_Control), .ALU_Out(ALU_Out), .OVF(OVF) );
 
 initial
 begin
-    A = 32'h00000100;   // 7fffffff
-    B = 32'h00000004;   // 80000000
+    A = 32'h7fffffff;   // 7fffffff
+    B = 32'h00000001;   // 00000001
 end
 
 initial
